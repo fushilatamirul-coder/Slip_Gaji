@@ -7,7 +7,7 @@
     <!-- Font & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- html2canvas untuk export gambar -->
+    <!-- html2canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
@@ -25,7 +25,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 720px;
+            max-width: 740px;
             width: 100%;
             background: #faf3e8;
             border-radius: 48px 48px 32px 32px;
@@ -33,7 +33,6 @@
             padding: 28px 28px 35px;
             transition: all 0.2s;
         }
-        /* ----- SLIP CARD (yang di-capture) ----- */
         #slipCard {
             background: #fcf6ed;
             border-radius: 28px;
@@ -42,7 +41,6 @@
             position: relative;
             transition: 0.2s;
         }
-        /* header */
         .header-slip {
             text-align: center;
             border-bottom: 3px double #c9a77b;
@@ -77,7 +75,6 @@
             font-family: 'Times New Roman', serif;
             letter-spacing: 2px;
         }
-        /* form / data */
         .field-group {
             display: flex;
             flex-direction: column;
@@ -90,6 +87,8 @@
             justify-content: space-between;
             border-bottom: 1px dashed #dccbbc;
             padding: 8px 0;
+            flex-wrap: wrap;
+            gap: 6px 0;
         }
         .row-item .label {
             font-weight: 600;
@@ -109,25 +108,54 @@
             color: #2f1d10;
             font-size: 18px;
             background: #efe3d4;
-            padding: 2px 16px;
+            padding: 4px 16px;
             border-radius: 40px;
-            min-width: 100px;
+            min-width: 150px;
             text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            flex-wrap: wrap;
         }
-        .row-item .value input {
+        .row-item .value .rp-symbol {
+            font-weight: 600;
+            color: #3d2a1a;
+        }
+        .row-item .value input, 
+        .row-item .value select {
             background: transparent;
             border: none;
             font-weight: 700;
             color: #2f1d10;
             font-size: 18px;
-            width: 110px;
+            width: 120px;
             text-align: right;
             padding: 4px 8px;
             outline: none;
             border-radius: 30px;
         }
-        .row-item .value input:focus {
+        .row-item .value input:focus,
+        .row-item .value select:focus {
             background: #f5e8d9;
+        }
+        .row-item .value select {
+            width: 130px;
+            appearance: auto;
+            background: #efe3d4;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-weight: 600;
+        }
+        .row-item .value .tunjangan-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #5d3f2a;
+            background: #dccbbc;
+            padding: 0 12px;
+            border-radius: 40px;
+            min-width: 60px;
+            text-align: center;
         }
         .total-row {
             margin-top: 16px;
@@ -192,7 +220,6 @@
             color: #b1805a;
             margin: 0 6px;
         }
-        /* tombol & input WA */
         .action-area {
             margin-top: 30px;
             display: flex;
@@ -254,13 +281,6 @@
         .btn-wa:hover {
             background: #2cdb72;
         }
-        .btn-secondary {
-            background: #7b5d44;
-            box-shadow: 0 4px 0 #4d3422;
-        }
-        .btn-secondary:hover {
-            background: #8f6d51;
-        }
         .info-note {
             margin-top: 12px;
             text-align: center;
@@ -272,20 +292,19 @@
         .info-note i {
             margin-right: 4px;
         }
-        /* response */
-        @media (max-width: 500px) {
+        @media (max-width: 550px) {
             .container { padding: 14px; }
             #slipCard { padding: 20px 14px; }
             .header-slip h1 { font-size: 20px; }
             .row-item .label { font-size: 15px; }
-            .row-item .value input { width: 80px; font-size: 16px; }
+            .row-item .value input { width: 90px; font-size: 16px; }
+            .row-item .value select { width: 110px; font-size: 15px; }
             .total-row { font-size: 18px; flex-wrap: wrap; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- ini yang di-capture -->
     <div id="slipCard">
         <div class="header-slip">
             <h1>🍃 SLIP GAJI KARYAWAN</h1>
@@ -298,31 +317,58 @@
             <!-- Gaji Pokok -->
             <div class="row-item">
                 <span class="label"><i class="fas fa-wallet"></i> Gaji Pokok</span>
-                <span class="value">Rp <input type="number" id="gajiPokok" value="3500000" step="50000"></span>
+                <span class="value">
+                    <span class="rp-symbol">Rp</span>
+                    <input type="text" id="gajiPokokDisplay" value="3.500.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
+                    <input type="hidden" id="gajiPokok" value="3500000">
+                </span>
             </div>
             <!-- Lembur -->
             <div class="row-item">
                 <span class="label"><i class="fas fa-clock"></i> Lembur</span>
-                <span class="value">Rp <input type="number" id="lembur" value="250000" step="10000"></span>
+                <span class="value">
+                    <span class="rp-symbol">Rp</span>
+                    <input type="text" id="lemburDisplay" value="250.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
+                    <input type="hidden" id="lembur" value="250000">
+                </span>
             </div>
             <!-- Potongan -->
             <div class="row-item">
                 <span class="label"><i class="fas fa-minus-circle"></i> Potongan</span>
-                <span class="value">Rp <input type="number" id="potongan" value="150000" step="10000"></span>
+                <span class="value">
+                    <span class="rp-symbol">Rp</span>
+                    <input type="text" id="potonganDisplay" value="150.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
+                    <input type="hidden" id="potongan" value="150000">
+                </span>
             </div>
-            <!-- Sodaqoh (nilai beda tiap bulan) -->
+            <!-- Shodaqoh -->
             <div class="row-item">
                 <span class="label"><i class="fas fa-hand-holding-heart"></i> Shodaqoh</span>
-                <span class="value">Rp <input type="number" id="sodaqoh" value="75000" step="5000"></span>
+                <span class="value">
+                    <span class="rp-symbol">Rp</span>
+                    <input type="text" id="sodaqohDisplay" value="75.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
+                    <input type="hidden" id="sodaqoh" value="75000">
+                </span>
             </div>
             <!-- Tunjangan Lainnya -->
             <div class="row-item">
                 <span class="label"><i class="fas fa-gift"></i> Tunjangan Lain</span>
-                <span class="value">Rp <input type="number" id="tunjangan" value="100000" step="10000"></span>
+                <span class="value">
+                    <select id="tunjanganSelect">
+                        <option value="Pulsa">Pulsa</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Makan">Makan</option>
+                        <option value="Bonus" selected>Bonus</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <span class="rp-symbol">Rp</span>
+                    <input type="text" id="tunjanganDisplay" value="100.000" readonly style="width:120px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
+                    <input type="hidden" id="tunjanganNominal" value="100000">
+                </span>
             </div>
         </div>
 
-        <!-- Total otomatis -->
+        <!-- Total -->
         <div class="total-row" id="totalRow">
             <span class="label"><i class="fas fa-calculator"></i> TOTAL</span>
             <span class="value" id="totalDisplay">Rp 3.725.000</span>
@@ -342,78 +388,142 @@
         </div>
     </div>
 
-    <!-- Action: input wa + export + kirim -->
     <div class="action-area">
         <input type="text" class="wa-input" id="waNumber" placeholder="Nomor WA (contoh: 628123456789)" value="628123456789">
-        <button class="btn btn-secondary" id="exportBtn"><i class="fas fa-image"></i> Export JPEG</button>
-        <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim WA</button>
+        <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim WA (Gambar)</button>
     </div>
     <div class="info-note">
-        <i class="fas fa-info-circle"></i> Export JPEG lalu otomatis siap kirim via WhatsApp ke nomor yang diisi
+        <i class="fas fa-info-circle"></i> Klik Kirim WA → gambar slip akan diunduh & WhatsApp terbuka otomatis.
     </div>
 </div>
 
 <script>
     (function() {
-        // DOM refs
-        const gajiPokok = document.getElementById('gajiPokok');
-        const lembur = document.getElementById('lembur');
-        const potongan = document.getElementById('potongan');
-        const sodaqoh = document.getElementById('sodaqoh');
-        const tunjangan = document.getElementById('tunjangan');
+        // Elemen display (readonly) dan hidden (nilai angka)
+        const gajiPokokDisplay = document.getElementById('gajiPokokDisplay');
+        const gajiPokokHidden = document.getElementById('gajiPokok');
+        const lemburDisplay = document.getElementById('lemburDisplay');
+        const lemburHidden = document.getElementById('lembur');
+        const potonganDisplay = document.getElementById('potonganDisplay');
+        const potonganHidden = document.getElementById('potongan');
+        const sodaqohDisplay = document.getElementById('sodaqohDisplay');
+        const sodaqohHidden = document.getElementById('sodaqoh');
+        const tunjanganDisplay = document.getElementById('tunjanganDisplay');
+        const tunjanganHidden = document.getElementById('tunjanganNominal');
+        const tunjanganSelect = document.getElementById('tunjanganSelect');
         const totalDisplay = document.getElementById('totalDisplay');
         const slipCard = document.getElementById('slipCard');
         const waInput = document.getElementById('waNumber');
-        const exportBtn = document.getElementById('exportBtn');
         const sendWaBtn = document.getElementById('sendWaBtn');
 
-        // format Rupiah
+        // Format angka dengan titik ribuan
         function formatRupiah(angka) {
-            return 'Rp ' + angka.toLocaleString('id-ID');
+            return angka.toLocaleString('id-ID');
         }
 
-        // hitung total
-        function updateTotal() {
-            const pokok = parseInt(gajiPokok.value) || 0;
-            const lemburVal = parseInt(lembur.value) || 0;
-            const potongVal = parseInt(potongan.value) || 0;
-            const sodaVal = parseInt(sodaqoh.value) || 0;
-            const tunjVal = parseInt(tunjangan.value) || 0;
-            const total = pokok + lemburVal + tunjVal - potongVal - sodaVal;
-            totalDisplay.textContent = formatRupiah(total);
-            return total;
+        // Ambil nilai numerik dari hidden
+        function getNumeric(id) {
+            return parseInt(document.getElementById(id).value) || 0;
         }
 
-        // event listeners untuk update total
-        [gajiPokok, lembur, potongan, sodaqoh, tunjangan].forEach(el => {
-            el.addEventListener('input', updateTotal);
+        // Update semua display & total
+        function updateAllDisplays() {
+            const pokok = getNumeric('gajiPokok');
+            const lembur = getNumeric('lembur');
+            const potong = getNumeric('potongan');
+            const soda = getNumeric('sodaqoh');
+            const tunjNom = getNumeric('tunjanganNominal');
+
+            gajiPokokDisplay.value = formatRupiah(pokok);
+            lemburDisplay.value = formatRupiah(lembur);
+            potonganDisplay.value = formatRupiah(potong);
+            sodaqohDisplay.value = formatRupiah(soda);
+            tunjanganDisplay.value = formatRupiah(tunjNom);
+
+            const total = pokok + lembur + tunjNom - potong - soda;
+            totalDisplay.textContent = 'Rp ' + formatRupiah(total);
+        }
+
+        // Fungsi untuk mengubah nilai hidden + update display (dipanggil dari event)
+        function setValueAndUpdate(idHidden, idDisplay, newValue) {
+            const hidden = document.getElementById(idHidden);
+            const display = document.getElementById(idDisplay);
+            let num = parseInt(newValue) || 0;
+            if (num < 0) num = 0;
+            hidden.value = num;
+            display.value = formatRupiah(num);
+            updateAllDisplays();
+        }
+
+        // Buat input tersembunyi untuk edit (sebenarnya kita pakai popup atau input langsung?)
+        // Karena diminta "terdapat titik koma" dan bisa diubah, kita buat double-click pada display untuk edit.
+        // Atau lebih praktis: tambahkan tombol kecil? Kita gunakan event click pada display untuk mengubah.
+        // Buat fungsi edit value dengan prompt sederhana.
+        function makeEditable(displayId, hiddenId, label) {
+            const display = document.getElementById(displayId);
+            const hidden = document.getElementById(hiddenId);
+            display.addEventListener('dblclick', function(e) {
+                e.stopPropagation();
+                const current = parseInt(hidden.value) || 0;
+                const input = prompt(`Masukkan nominal ${label} (tanpa titik):`, current);
+                if (input === null) return;
+                const num = parseInt(input.replace(/\./g, '')) || 0;
+                if (num < 0) {
+                    alert('Nominal tidak boleh negatif.');
+                    return;
+                }
+                hidden.value = num;
+                display.value = formatRupiah(num);
+                updateAllDisplays();
+            });
+            display.style.cursor = 'pointer';
+            display.title = 'Double-klik untuk mengubah';
+        }
+
+        // Aktifkan edit untuk Gaji Pokok, Lembur, Potongan, Shodaqoh, Tunjangan
+        makeEditable('gajiPokokDisplay', 'gajiPokok', 'Gaji Pokok');
+        makeEditable('lemburDisplay', 'lembur', 'Lembur');
+        makeEditable('potonganDisplay', 'potongan', 'Potongan');
+        makeEditable('sodaqohDisplay', 'sodaqoh', 'Shodaqoh');
+        makeEditable('tunjanganDisplay', 'tunjanganNominal', 'Tunjangan');
+
+        // Tunjangan Select: hanya untuk label, tidak mempengaruhi nominal
+        // tapi kita tambahkan event untuk update total (tidak mengubah nominal)
+        tunjanganSelect.addEventListener('change', function() {
+            // tidak mengubah nominal, hanya label
         });
-        // initial
-        updateTotal();
 
-        // fungsi export JPEG dan langsung kirim via WA (otomatis)
-        function exportAndSend(phoneNumber) {
-            // validasi nomor
-            let wa = phoneNumber.trim();
+        // Inisialisasi
+        updateAllDisplays();
+
+        // Fungsi kirim WA (gambar + data lengkap)
+        function sendWaWithImage() {
+            let wa = waInput.value.trim();
             if (!wa) {
                 alert('Masukkan nomor WhatsApp terlebih dahulu.');
-                return false;
+                return;
             }
-            // bersihkan nomor (hanya angka)
             wa = wa.replace(/\D/g, '');
             if (wa.length < 10) {
                 alert('Nomor WhatsApp tidak valid (minimal 10 digit).');
-                return false;
+                return;
             }
-            // pastikan tidak ada '0' di depan untuk internasional, jika mulai 0 ganti jadi 62
             if (wa.startsWith('0')) {
                 wa = '62' + wa.substring(1);
-            }
-            if (!wa.startsWith('62')) {
+            } else if (!wa.startsWith('62')) {
                 wa = '62' + wa;
             }
 
-            // capture slipCard
+            // Ambil data terkini dari hidden
+            const pokok = getNumeric('gajiPokok');
+            const lembur = getNumeric('lembur');
+            const potong = getNumeric('potongan');
+            const soda = getNumeric('sodaqoh');
+            const tunjNom = getNumeric('tunjanganNominal');
+            const tunjLabel = tunjanganSelect.value;
+            const total = pokok + lembur + tunjNom - potong - soda;
+
+            // Capture slipCard
             html2canvas(slipCard, {
                 scale: 1.8,
                 backgroundColor: '#fcf6ed',
@@ -421,24 +531,9 @@
                 useCORS: true,
                 logging: false,
             }).then(canvas => {
-                // ubah ke JPEG
                 const imgData = canvas.toDataURL('image/jpeg', 0.92);
-                // buat link download (opsional) tapi kita langsung kirim WA
-                // Buka WhatsApp dengan gambar (base64 tidak langsung support, kita pakai fallback: kirim link download? 
-                // Solusi: kita buat blob & upload ke object URL, lalu kirim via WA? WA tidak bisa terima base64 langsung.
-                // Cara paling praktis: simpan sebagai file & trigger download, lalu user kirim manual? 
-                // Tapi diminta "auto kirim ke nomor WhatsApp yang di isikan" — kita buka WA dengan pesan + gambar (tergantung device)
-                // WhatsApp Web tidak support attachment via URL secara langsung. 
-                // Pendekatan: kita generate link download dan buka WhatsApp dengan teks + instruksi.
-                // Alternatif: buat link wa.me dengan teks yang berisi link gambar (hosting tidak tersedia)
-                // Maka kita lakukan: download gambar + buka WhatsApp dengan teks "Slip gaji terlampir" 
-                // Karena tidak bisa attach otomatis via wa.me, kita beri instruksi clear.
 
-                // tapi kita tetap buka WA dengan pesan yang meminta user attach gambar hasil download.
-                // lebih baik: kita unduh gambarnya, lalu buka WhatsApp dengan pesan.
-                // User tinggal attach dari galeri.
-
-                // Download gambar 
+                // Download gambar
                 const link = document.createElement('a');
                 link.download = `Slip_Gaji_PawonMbahGito.jpeg`;
                 link.href = imgData;
@@ -446,54 +541,42 @@
                 link.click();
                 document.body.removeChild(link);
 
-                // Buka WhatsApp dengan pesan
-                const message = `*Slip Gaji Pawon Mbah Gito*%0A%0ABismillah%0A%0ATotal Gaji: ${totalDisplay.textContent}%0A%0ASemoga Ridho dan Allah Berkahi rezekinya. Aamiin%0A%0A~ Pawon Mbah Gito Resto & Coffee ~`;
-                const waUrl = `https://wa.me/${wa}?text=${message}`;
+                // Pesan WA dengan data lengkap
+                const msg = 
+`*Slip Gaji Pawon Mbah Gito*
+
+Bismillah
+
+Gaji Pokok : Rp ${formatRupiah(pokok)}
+Lembur     : Rp ${formatRupiah(lembur)}
+Potongan   : Rp ${formatRupiah(potong)}
+Shodaqoh   : Rp ${formatRupiah(soda)}
+Tunjangan Lain (${tunjLabel}) : Rp ${formatRupiah(tunjNom)}
+
+Total Gaji : Rp ${formatRupiah(total)}
+
+Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
+
+~ Pawon Mbah Gito Resto & Coffee ~`;
+
+                const encoded = encodeURIComponent(msg);
+                const waUrl = `https://wa.me/${wa}?text=${encoded}`;
                 window.open(waUrl, '_blank');
 
-                alert('✅ Gambar slip gaji berhasil di-download (JPEG).\nWhatsApp terbuka, silakan lampirkan gambar dari galeri.\n\n📌 Kirim ke: ' + wa);
-                return true;
+                alert('✅ Gambar slip gaji sudah di-download (JPEG).\nWhatsApp terbuka dengan data lengkap.\nSilakan lampirkan gambar dari galeri ke chat.');
             }).catch(err => {
                 console.error(err);
                 alert('Gagal generate gambar. Coba lagi.');
-                return false;
             });
-            return true;
         }
 
-        // tombol export JPEG (hanya download)
-        exportBtn.addEventListener('click', function() {
-            html2canvas(slipCard, {
-                scale: 1.8,
-                backgroundColor: '#fcf6ed',
-                allowTaint: false,
-                useCORS: true,
-                logging: false,
-            }).then(canvas => {
-                const link = document.createElement('a');
-                link.download = `Slip_Gaji_PawonMbahGito.jpeg`;
-                link.href = canvas.toDataURL('image/jpeg', 0.92);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }).catch(err => {
-                alert('Gagal export JPEG.');
-            });
-        });
-
-        // tombol kirim WA (export + buka wa.me)
-        sendWaBtn.addEventListener('click', function() {
-            const phone = waInput.value;
-            exportAndSend(phone);
-        });
-
-        // tambahan: enter pada input WA trigger kirim
+        sendWaBtn.addEventListener('click', sendWaWithImage);
         waInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendWaBtn.click();
-            }
+            if (e.key === 'Enter') sendWaWithImage();
         });
 
+        // Agar total update jika ada perubahan dari hidden (via edit)
+        // sudah dihandle di makeEditable
     })();
 </script>
 </body>
