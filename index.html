@@ -71,12 +71,12 @@
 
         .bismillah {
             font-size: 22px;
-            font-weight: 300;
+            font-weight: 700;
             color: #5a3c26;
             text-align: center;
             margin-bottom: 20px;
             font-family: 'Times New Roman', serif;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .field-group {
@@ -239,11 +239,6 @@
             margin-top: 5px;
         }
 
-        .footer-slip i {
-            color: #b1805a;
-            margin: 0 6px;
-        }
-
         /* ===== ACTION ===== */
         .action-area {
             margin-top: 30px;
@@ -352,10 +347,6 @@
             display: block;
         }
 
-        .status-bar i {
-            margin-right: 8px;
-        }
-
         .status-bar.success i {
             color: #25d366;
         }
@@ -398,11 +389,11 @@
         <!-- SLIP CARD -->
         <div id="slipCard">
             <div class="header-slip">
-                <h1>🍃 SLIP GAJI KARYAWAN</h1>
+                <h1>SLIP GAJI KARYAWAN</h1>
                 <div class="subhead">PAWON MBAH GITO</div>
             </div>
 
-            <div class="bismillah">بِسْمِ اللَّهِ</div>
+            <div class="bismillah">BISMILLAH</div>
 
             <div class="field-group">
                 <!-- Gaji Pokok -->
@@ -473,8 +464,8 @@
             </div>
 
             <div class="footer-slip">
-                <i class="fas fa-mug-hot"></i> Pawon Mbah Gito Resto & Coffee <i class="fas fa-mug-hot"></i>
-                <small>🕌 berkah & ridho Illahi 🕌</small>
+                Pawon Mbah Gito Resto & Coffee
+                <small>berkah & ridho Illahi</small>
             </div>
         </div>
 
@@ -541,8 +532,7 @@
             // Event listener untuk update total saat input berubah
             [gajiInput, lemburInput, potonganInput, sodaqohInput, tunjanganInput].forEach(el => {
                 el.addEventListener('input', function() {
-                    // Format ulang saat user mengetik (agar ada titik)
-                    // Biarkan user mengetik angka, kita format saat blur
+                    // Biarkan user mengetik angka
                 });
 
                 el.addEventListener('blur', function() {
@@ -570,8 +560,6 @@
                     }
                 });
             });
-
-            // Tunjangan select tidak perlu update total, hanya label
 
             // Inisialisasi total
             updateTotal();
@@ -625,7 +613,7 @@
                 });
             });
 
-            // Kirim ke WA (Generate + Kirim)
+            // Kirim ke WA - hanya mengirim GAMBAR (bukan teks)
             sendWaBtn.addEventListener('click', function() {
                 const wa = waInput.value.trim();
                 if (!wa) {
@@ -649,7 +637,7 @@
 
                 // Generate gambar
                 generateImage().then(imgData => {
-                    // Download gambar otomatis
+                    // Download gambar otomatis (sebagai bukti)
                     const link = document.createElement('a');
                     link.download = 'Slip_Gaji_PawonMbahGito.jpeg';
                     link.href = imgData;
@@ -657,39 +645,15 @@
                     link.click();
                     document.body.removeChild(link);
 
-                    // Siapkan pesan WhatsApp dengan data lengkap
-                    const pokok = parseRupiah(gajiInput.value);
-                    const lembur = parseRupiah(lemburInput.value);
-                    const potong = parseRupiah(potonganInput.value);
-                    const soda = parseRupiah(sodaqohInput.value);
-                    const tunj = parseRupiah(tunjanganInput.value);
-                    const tunjLabel = tunjanganSelect.value;
-                    const total = pokok + lembur + tunj - potong - soda;
-
-                    const msg =
-                        `*Slip Gaji Pawon Mbah Gito*
-
-        Bismillah
-
-        Gaji Pokok : Rp ${formatRupiah(pokok)}
-        Lembur     : Rp ${formatRupiah(lembur)}
-        Potongan   : Rp ${formatRupiah(potong)}
-        Shodaqoh   : Rp ${formatRupiah(soda)}
-        Tunjangan Lain (${tunjLabel}) : Rp ${formatRupiah(tunj)}
-
-        Total Gaji : Rp ${formatRupiah(total)}
-
-        Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
-
-        ~ Pawon Mbah Gito Resto & Coffee ~`;
-
-                    const encoded = encodeURIComponent(msg);
-                    const waUrl = `https://wa.me/${waClean}?text=${encoded}`;
-
-                    // Buka WhatsApp
+                    // Kirim GAMBAR ke WhatsApp menggunakan API share (hanya gambar)
+                    // Buat pesan singkat tanpa data detail (hanya instruksi untuk lampirkan gambar)
+                    const msg = `*Slip Gaji Pawon Mbah Gito*%0A%0ABISMILLAH%0A%0ASemoga Ridho dan Allah Berkahi rezekinya. Aamiin%0A%0A~ Pawon Mbah Gito Resto & Coffee ~`;
+                    
+                    // Buka WhatsApp dengan pesan pendek (gambar sudah didownload, user tinggal attach)
+                    const waUrl = `https://wa.me/${waClean}?text=${msg}`;
                     window.open(waUrl, '_blank');
 
-                    showStatus('✅ Gambar terdownload & WhatsApp terbuka! Silakan lampirkan gambar.', 'success');
+                    showStatus('✅ Gambar terdownload! Silakan lampirkan gambar di chat WhatsApp yang sudah terbuka.', 'success');
                 }).catch(() => {
                     showStatus('❌ Gagal mengirim. Coba lagi.', 'error');
                 });
