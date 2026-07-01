@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slip Gaji Pawon Mbah Gito</title>
+    <!-- Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- html2canvas untuk export gambar -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #2b1a0e 0%, #4a2e1b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            background: #faf3e8;
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.7), 0 0 0 2px #d9b382 inset;
+            padding: 28px 28px 35px;
+            transition: all 0.2s;
+        }
+        /* ----- SLIP CARD (yang di-capture) ----- */
+        #slipCard {
+            background: #fcf6ed;
+            border-radius: 28px;
+            padding: 30px 28px 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 0 1px #e5cdb0;
+            position: relative;
+            transition: 0.2s;
+        }
+        /* header */
+        .header-slip {
+            text-align: center;
+            border-bottom: 3px double #c9a77b;
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+        }
+        .header-slip h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #3d2314;
+            letter-spacing: 2px;
+            word-spacing: 4px;
+            text-shadow: 1px 1px 0 #dbbd9e;
+        }
+        .header-slip .subhead {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6f4e32;
+            background: #ede0d0;
+            display: inline-block;
+            padding: 4px 18px;
+            border-radius: 40px;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+        .bismillah {
+            font-size: 22px;
+            font-weight: 300;
+            color: #5a3c26;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 2px;
+        }
+        /* form / data */
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .row-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px dashed #dccbbc;
+            padding: 8px 0;
+        }
+        .row-item .label {
+            font-weight: 600;
+            color: #3d2a1a;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .row-item .label i {
+            color: #a77b56;
+            width: 24px;
+            font-size: 18px;
+        }
+        .row-item .value {
+            font-weight: 700;
+            color: #2f1d10;
+            font-size: 18px;
+            background: #efe3d4;
+            padding: 2px 16px;
+            border-radius: 40px;
+            min-width: 100px;
+            text-align: right;
+        }
+        .row-item .value input {
+            background: transparent;
+            border: none;
+            font-weight: 700;
+            color: #2f1d10;
+            font-size: 18px;
+            width: 110px;
+            text-align: right;
+            padding: 4px 8px;
+            outline: none;
+            border-radius: 30px;
+        }
+        .row-item .value input:focus {
+            background: #f5e8d9;
+        }
+        .total-row {
+            margin-top: 16px;
+            padding: 14px 10px;
+            background: #e5d2bc;
+            border-radius: 40px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 22px;
+            color: #24170d;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .total-row .label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .total-row .label i {
+            color: #895e3d;
+        }
+        .total-row .value {
+            background: #3d281b;
+            color: #f7ede2;
+            padding: 2px 24px;
+            border-radius: 60px;
+            font-size: 22px;
+        }
+        .note-area {
+            margin: 20px 0 12px;
+            background: #f1e5d7;
+            padding: 14px 18px;
+            border-radius: 30px;
+            font-style: italic;
+            color: #3f2d1d;
+            border-left: 6px solid #b58b66;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .note-area i {
+            color: #8b6a4b;
+            margin-right: 6px;
+        }
+        .footer-slip {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: #4d3422;
+            border-top: 2px solid #dac2a8;
+            padding-top: 16px;
+            font-size: 19px;
+            letter-spacing: 1px;
+        }
+        .footer-slip small {
+            display: block;
+            font-weight: 400;
+            font-size: 13px;
+            color: #7b5d44;
+            margin-top: 5px;
+        }
+        .footer-slip i {
+            color: #b1805a;
+            margin: 0 6px;
+        }
+        /* tombol & input WA */
+        .action-area {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px 12px;
+            justify-content: center;
+        }
+        .wa-input {
+            flex: 2 1 200px;
+            background: #fcf3e8;
+            border: 2px solid #c9a77b;
+            border-radius: 60px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2b1b0f;
+            outline: none;
+            transition: 0.2s;
+        }
+        .wa-input:focus {
+            border-color: #a0714b;
+            box-shadow: 0 0 0 4px #decbb8;
+        }
+        .btn {
+            background: #4d3221;
+            border: none;
+            border-radius: 60px;
+            padding: 12px 22px;
+            font-weight: 600;
+            font-size: 16px;
+            color: #f8efe4;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #2b1b10;
+            border: 1px solid #7b5d44;
+        }
+        .btn i {
+            font-size: 18px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #2b1b10;
+            background: #5d3d2a;
+        }
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #2b1b10;
+        }
+        .btn-wa {
+            background: #25d366;
+            box-shadow: 0 4px 0 #1a8c47;
+            border-color: #1f9c52;
+            color: white;
+        }
+        .btn-wa:hover {
+            background: #2cdb72;
+        }
+        .btn-secondary {
+            background: #7b5d44;
+            box-shadow: 0 4px 0 #4d3422;
+        }
+        .btn-secondary:hover {
+            background: #8f6d51;
+        }
+        .info-note {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #b49478;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .info-note i {
+            margin-right: 4px;
+        }
+        /* response */
+        @media (max-width: 500px) {
+            .container { padding: 14px; }
+            #slipCard { padding: 20px 14px; }
+            .header-slip h1 { font-size: 20px; }
+            .row-item .label { font-size: 15px; }
+            .row-item .value input { width: 80px; font-size: 16px; }
+            .total-row { font-size: 18px; flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- ini yang di-capture -->
+    <div id="slipCard">
+        <div class="header-slip">
+            <h1>🍃 SLIP GAJI KARYAWAN</h1>
+            <div class="subhead">PAWON MBAH GITO</div>
+        </div>
+
+        <div class="bismillah">بِسْمِ اللَّهِ</div>
+
+        <div class="field-group">
+            <!-- Gaji Pokok -->
+            <div class="row-item">
+                <span class="label"><i class="fas fa-wallet"></i> Gaji Pokok</span>
+                <span class="value">Rp <input type="number" id="gajiPokok" value="3500000" step="50000"></span>
+            </div>
+            <!-- Lembur -->
+            <div class="row-item">
+                <span class="label"><i class="fas fa-clock"></i> Lembur</span>
+                <span class="value">Rp <input type="number" id="lembur" value="250000" step="10000"></span>
+            </div>
+            <!-- Potongan -->
+            <div class="row-item">
+                <span class="label"><i class="fas fa-minus-circle"></i> Potongan</span>
+                <span class="value">Rp <input type="number" id="potongan" value="150000" step="10000"></span>
+            </div>
+            <!-- Sodaqoh (nilai beda tiap bulan) -->
+            <div class="row-item">
+                <span class="label"><i class="fas fa-hand-holding-heart"></i> Shodaqoh</span>
+                <span class="value">Rp <input type="number" id="sodaqoh" value="75000" step="5000"></span>
+            </div>
+            <!-- Tunjangan Lainnya -->
+            <div class="row-item">
+                <span class="label"><i class="fas fa-gift"></i> Tunjangan Lain</span>
+                <span class="value">Rp <input type="number" id="tunjangan" value="100000" step="10000"></span>
+            </div>
+        </div>
+
+        <!-- Total otomatis -->
+        <div class="total-row" id="totalRow">
+            <span class="label"><i class="fas fa-calculator"></i> TOTAL</span>
+            <span class="value" id="totalDisplay">Rp 3.725.000</span>
+        </div>
+
+        <div class="note-area">
+            <i class="fas fa-praying-hands"></i> Shodaqoh nilainya tidak sama setiap bulannya. 
+            <span style="display:block; margin-top:6px; font-style:normal;">
+                <i class="fas fa-star" style="color:#b58b66;"></i> 
+                Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
+            </span>
+        </div>
+
+        <div class="footer-slip">
+            <i class="fas fa-mug-hot"></i> Pawon Mbah Gito Resto & Coffee <i class="fas fa-mug-hot"></i>
+            <small>🕌 berkah & ridho Illahi 🕌</small>
+        </div>
+    </div>
+
+    <!-- Action: input wa + export + kirim -->
+    <div class="action-area">
+        <input type="text" class="wa-input" id="waNumber" placeholder="Nomor WA (contoh: 628123456789)" value="628123456789">
+        <button class="btn btn-secondary" id="exportBtn"><i class="fas fa-image"></i> Export JPEG</button>
+        <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim WA</button>
+    </div>
+    <div class="info-note">
+        <i class="fas fa-info-circle"></i> Export JPEG lalu otomatis siap kirim via WhatsApp ke nomor yang diisi
+    </div>
+</div>
+
+<script>
+    (function() {
+        // DOM refs
+        const gajiPokok = document.getElementById('gajiPokok');
+        const lembur = document.getElementById('lembur');
+        const potongan = document.getElementById('potongan');
+        const sodaqoh = document.getElementById('sodaqoh');
+        const tunjangan = document.getElementById('tunjangan');
+        const totalDisplay = document.getElementById('totalDisplay');
+        const slipCard = document.getElementById('slipCard');
+        const waInput = document.getElementById('waNumber');
+        const exportBtn = document.getElementById('exportBtn');
+        const sendWaBtn = document.getElementById('sendWaBtn');
+
+        // format Rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toLocaleString('id-ID');
+        }
+
+        // hitung total
+        function updateTotal() {
+            const pokok = parseInt(gajiPokok.value) || 0;
+            const lemburVal = parseInt(lembur.value) || 0;
+            const potongVal = parseInt(potongan.value) || 0;
+            const sodaVal = parseInt(sodaqoh.value) || 0;
+            const tunjVal = parseInt(tunjangan.value) || 0;
+            const total = pokok + lemburVal + tunjVal - potongVal - sodaVal;
+            totalDisplay.textContent = formatRupiah(total);
+            return total;
+        }
+
+        // event listeners untuk update total
+        [gajiPokok, lembur, potongan, sodaqoh, tunjangan].forEach(el => {
+            el.addEventListener('input', updateTotal);
+        });
+        // initial
+        updateTotal();
+
+        // fungsi export JPEG dan langsung kirim via WA (otomatis)
+        function exportAndSend(phoneNumber) {
+            // validasi nomor
+            let wa = phoneNumber.trim();
+            if (!wa) {
+                alert('Masukkan nomor WhatsApp terlebih dahulu.');
+                return false;
+            }
+            // bersihkan nomor (hanya angka)
+            wa = wa.replace(/\D/g, '');
+            if (wa.length < 10) {
+                alert('Nomor WhatsApp tidak valid (minimal 10 digit).');
+                return false;
+            }
+            // pastikan tidak ada '0' di depan untuk internasional, jika mulai 0 ganti jadi 62
+            if (wa.startsWith('0')) {
+                wa = '62' + wa.substring(1);
+            }
+            if (!wa.startsWith('62')) {
+                wa = '62' + wa;
+            }
+
+            // capture slipCard
+            html2canvas(slipCard, {
+                scale: 1.8,
+                backgroundColor: '#fcf6ed',
+                allowTaint: false,
+                useCORS: true,
+                logging: false,
+            }).then(canvas => {
+                // ubah ke JPEG
+                const imgData = canvas.toDataURL('image/jpeg', 0.92);
+                // buat link download (opsional) tapi kita langsung kirim WA
+                // Buka WhatsApp dengan gambar (base64 tidak langsung support, kita pakai fallback: kirim link download? 
+                // Solusi: kita buat blob & upload ke object URL, lalu kirim via WA? WA tidak bisa terima base64 langsung.
+                // Cara paling praktis: simpan sebagai file & trigger download, lalu user kirim manual? 
+                // Tapi diminta "auto kirim ke nomor WhatsApp yang di isikan" — kita buka WA dengan pesan + gambar (tergantung device)
+                // WhatsApp Web tidak support attachment via URL secara langsung. 
+                // Pendekatan: kita generate link download dan buka WhatsApp dengan teks + instruksi.
+                // Alternatif: buat link wa.me dengan teks yang berisi link gambar (hosting tidak tersedia)
+                // Maka kita lakukan: download gambar + buka WhatsApp dengan teks "Slip gaji terlampir" 
+                // Karena tidak bisa attach otomatis via wa.me, kita beri instruksi clear.
+
+                // tapi kita tetap buka WA dengan pesan yang meminta user attach gambar hasil download.
+                // lebih baik: kita unduh gambarnya, lalu buka WhatsApp dengan pesan.
+                // User tinggal attach dari galeri.
+
+                // Download gambar 
+                const link = document.createElement('a');
+                link.download = `Slip_Gaji_PawonMbahGito.jpeg`;
+                link.href = imgData;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Buka WhatsApp dengan pesan
+                const message = `*Slip Gaji Pawon Mbah Gito*%0A%0ABismillah%0A%0ATotal Gaji: ${totalDisplay.textContent}%0A%0ASemoga Ridho dan Allah Berkahi rezekinya. Aamiin%0A%0A~ Pawon Mbah Gito Resto & Coffee ~`;
+                const waUrl = `https://wa.me/${wa}?text=${message}`;
+                window.open(waUrl, '_blank');
+
+                alert('✅ Gambar slip gaji berhasil di-download (JPEG).\nWhatsApp terbuka, silakan lampirkan gambar dari galeri.\n\n📌 Kirim ke: ' + wa);
+                return true;
+            }).catch(err => {
+                console.error(err);
+                alert('Gagal generate gambar. Coba lagi.');
+                return false;
+            });
+            return true;
+        }
+
+        // tombol export JPEG (hanya download)
+        exportBtn.addEventListener('click', function() {
+            html2canvas(slipCard, {
+                scale: 1.8,
+                backgroundColor: '#fcf6ed',
+                allowTaint: false,
+                useCORS: true,
+                logging: false,
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Slip_Gaji_PawonMbahGito.jpeg`;
+                link.href = canvas.toDataURL('image/jpeg', 0.92);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }).catch(err => {
+                alert('Gagal export JPEG.');
+            });
+        });
+
+        // tombol kirim WA (export + buka wa.me)
+        sendWaBtn.addEventListener('click', function() {
+            const phone = waInput.value;
+            exportAndSend(phone);
+        });
+
+        // tambahan: enter pada input WA trigger kirim
+        waInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendWaBtn.click();
+            }
+        });
+
+    })();
+</script>
+</body>
+</html>
