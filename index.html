@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Slip Gaji Pawon Mbah Gito</title>
-    <!-- Font & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- html2canvas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
     <style>
         * {
             margin: 0;
@@ -16,45 +15,49 @@
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
         }
+
         body {
-            background: linear-gradient(145deg, #2b1a0e 0%, #4a2e1b 100%);
+            background: linear-gradient(145deg, #2b1a0e, #4a2e1b);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
+
         .container {
-            max-width: 740px;
+            max-width: 760px;
             width: 100%;
             background: #faf3e8;
             border-radius: 48px 48px 32px 32px;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.7), 0 0 0 2px #d9b382 inset;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.7), 0 0 0 2px #d9b382 inset;
             padding: 28px 28px 35px;
-            transition: all 0.2s;
         }
+
+        /* ===== SLIP CARD ===== */
         #slipCard {
             background: #fcf6ed;
             border-radius: 28px;
             padding: 30px 28px 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 0 1px #e5cdb0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 0 1px #e5cdb0;
             position: relative;
-            transition: 0.2s;
         }
+
         .header-slip {
             text-align: center;
             border-bottom: 3px double #c9a77b;
             padding-bottom: 14px;
             margin-bottom: 22px;
         }
+
         .header-slip h1 {
             font-size: 26px;
             font-weight: 700;
             color: #3d2314;
             letter-spacing: 2px;
-            word-spacing: 4px;
             text-shadow: 1px 1px 0 #dbbd9e;
         }
+
         .header-slip .subhead {
             font-size: 14px;
             font-weight: 500;
@@ -64,8 +67,8 @@
             padding: 4px 18px;
             border-radius: 40px;
             margin-top: 6px;
-            letter-spacing: 1px;
         }
+
         .bismillah {
             font-size: 22px;
             font-weight: 300;
@@ -75,12 +78,14 @@
             font-family: 'Times New Roman', serif;
             letter-spacing: 2px;
         }
+
         .field-group {
             display: flex;
             flex-direction: column;
             gap: 12px;
             margin-top: 4px;
         }
+
         .row-item {
             display: flex;
             align-items: center;
@@ -90,6 +95,7 @@
             flex-wrap: wrap;
             gap: 6px 0;
         }
+
         .row-item .label {
             font-weight: 600;
             color: #3d2a1a;
@@ -98,11 +104,13 @@
             align-items: center;
             gap: 8px;
         }
+
         .row-item .label i {
             color: #a77b56;
             width: 24px;
             font-size: 18px;
         }
+
         .row-item .value {
             font-weight: 700;
             color: #2f1d10;
@@ -110,7 +118,7 @@
             background: #efe3d4;
             padding: 4px 16px;
             border-radius: 40px;
-            min-width: 150px;
+            min-width: 160px;
             text-align: right;
             display: flex;
             align-items: center;
@@ -118,45 +126,52 @@
             gap: 6px;
             flex-wrap: wrap;
         }
+
         .row-item .value .rp-symbol {
             font-weight: 600;
             color: #3d2a1a;
         }
-        .row-item .value input, 
-        .row-item .value select {
+
+        .row-item .value .editable {
             background: transparent;
             border: none;
             font-weight: 700;
             color: #2f1d10;
             font-size: 18px;
-            width: 120px;
+            width: 130px;
             text-align: right;
             padding: 4px 8px;
             outline: none;
             border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .row-item .value input:focus,
-        .row-item .value select:focus {
+
+        .row-item .value .editable:hover {
             background: #f5e8d9;
         }
+
+        .row-item .value .editable:focus {
+            background: #f5e8d9;
+            outline: 2px solid #c9a77b;
+        }
+
         .row-item .value select {
-            width: 130px;
-            appearance: auto;
             background: #efe3d4;
+            border: none;
             border-radius: 40px;
             padding: 4px 12px;
             font-weight: 600;
+            font-size: 16px;
+            color: #2f1d10;
+            outline: none;
+            cursor: pointer;
         }
-        .row-item .value .tunjangan-label {
-            font-size: 15px;
-            font-weight: 500;
-            color: #5d3f2a;
-            background: #dccbbc;
-            padding: 0 12px;
-            border-radius: 40px;
-            min-width: 60px;
-            text-align: center;
+
+        .row-item .value select:focus {
+            outline: 2px solid #c9a77b;
         }
+
         .total-row {
             margin-top: 16px;
             padding: 14px 10px;
@@ -167,16 +182,19 @@
             font-weight: 700;
             font-size: 22px;
             color: #24170d;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
         }
+
         .total-row .label {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .total-row .label i {
             color: #895e3d;
         }
+
         .total-row .value {
             background: #3d281b;
             color: #f7ede2;
@@ -184,6 +202,7 @@
             border-radius: 60px;
             font-size: 22px;
         }
+
         .note-area {
             margin: 20px 0 12px;
             background: #f1e5d7;
@@ -195,10 +214,12 @@
             font-size: 15px;
             line-height: 1.6;
         }
+
         .note-area i {
             color: #8b6a4b;
             margin-right: 6px;
         }
+
         .footer-slip {
             margin-top: 20px;
             text-align: center;
@@ -209,6 +230,7 @@
             font-size: 19px;
             letter-spacing: 1px;
         }
+
         .footer-slip small {
             display: block;
             font-weight: 400;
@@ -216,10 +238,13 @@
             color: #7b5d44;
             margin-top: 5px;
         }
+
         .footer-slip i {
             color: #b1805a;
             margin: 0 6px;
         }
+
+        /* ===== ACTION ===== */
         .action-area {
             margin-top: 30px;
             display: flex;
@@ -228,28 +253,31 @@
             gap: 16px 12px;
             justify-content: center;
         }
+
         .wa-input {
-            flex: 2 1 200px;
+            flex: 2 1 220px;
             background: #fcf3e8;
             border: 2px solid #c9a77b;
             border-radius: 60px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 16px;
             font-weight: 500;
             color: #2b1b0f;
             outline: none;
             transition: 0.2s;
         }
+
         .wa-input:focus {
             border-color: #a0714b;
             box-shadow: 0 0 0 4px #decbb8;
         }
+
         .btn {
             background: #4d3221;
             border: none;
             border-radius: 60px;
-            padding: 12px 22px;
-            font-weight: 600;
+            padding: 12px 28px;
+            font-weight: 700;
             font-size: 16px;
             color: #f8efe4;
             display: inline-flex;
@@ -260,324 +288,434 @@
             box-shadow: 0 4px 0 #2b1b10;
             border: 1px solid #7b5d44;
         }
+
         .btn i {
             font-size: 18px;
         }
+
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 0 #2b1b10;
             background: #5d3d2a;
         }
+
         .btn:active {
             transform: translateY(4px);
             box-shadow: 0 0px 0 #2b1b10;
         }
+
         .btn-wa {
             background: #25d366;
             box-shadow: 0 4px 0 #1a8c47;
             border-color: #1f9c52;
             color: white;
         }
+
         .btn-wa:hover {
             background: #2cdb72;
         }
+
+        .btn-primary {
+            background: #a0714b;
+            box-shadow: 0 4px 0 #6f4e32;
+            border-color: #8b6a4b;
+        }
+
+        .btn-primary:hover {
+            background: #b1805a;
+        }
+
         .info-note {
             margin-top: 12px;
             text-align: center;
             font-size: 13px;
             color: #b49478;
             font-weight: 500;
-            letter-spacing: 0.5px;
         }
+
         .info-note i {
             margin-right: 4px;
         }
+
+        .status-bar {
+            margin-top: 10px;
+            padding: 10px 16px;
+            border-radius: 40px;
+            background: #efe3d4;
+            text-align: center;
+            font-weight: 500;
+            color: #3d2a1a;
+            display: none;
+        }
+
+        .status-bar.show {
+            display: block;
+        }
+
+        .status-bar i {
+            margin-right: 8px;
+        }
+
+        .status-bar.success i {
+            color: #25d366;
+        }
+
+        .status-bar.error i {
+            color: #e74c3c;
+        }
+
         @media (max-width: 550px) {
-            .container { padding: 14px; }
-            #slipCard { padding: 20px 14px; }
-            .header-slip h1 { font-size: 20px; }
-            .row-item .label { font-size: 15px; }
-            .row-item .value input { width: 90px; font-size: 16px; }
-            .row-item .value select { width: 110px; font-size: 15px; }
-            .total-row { font-size: 18px; flex-wrap: wrap; }
+            .container {
+                padding: 14px;
+            }
+            #slipCard {
+                padding: 20px 14px;
+            }
+            .header-slip h1 {
+                font-size: 20px;
+            }
+            .row-item .label {
+                font-size: 15px;
+            }
+            .row-item .value .editable {
+                width: 100px;
+                font-size: 16px;
+            }
+            .row-item .value select {
+                font-size: 14px;
+                padding: 2px 8px;
+            }
+            .total-row {
+                font-size: 18px;
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div id="slipCard">
-        <div class="header-slip">
-            <h1>🍃 SLIP GAJI KARYAWAN</h1>
-            <div class="subhead">PAWON MBAH GITO</div>
+
+    <div class="container">
+        <!-- SLIP CARD -->
+        <div id="slipCard">
+            <div class="header-slip">
+                <h1>🍃 SLIP GAJI KARYAWAN</h1>
+                <div class="subhead">PAWON MBAH GITO</div>
+            </div>
+
+            <div class="bismillah">بِسْمِ اللَّهِ</div>
+
+            <div class="field-group">
+                <!-- Gaji Pokok -->
+                <div class="row-item">
+                    <span class="label"><i class="fas fa-wallet"></i> Gaji Pokok</span>
+                    <span class="value">
+                        <span class="rp-symbol">Rp</span>
+                        <input type="text" class="editable" id="gajiPokokInput" value="3.500.000" />
+                    </span>
+                </div>
+
+                <!-- Lembur -->
+                <div class="row-item">
+                    <span class="label"><i class="fas fa-clock"></i> Lembur</span>
+                    <span class="value">
+                        <span class="rp-symbol">Rp</span>
+                        <input type="text" class="editable" id="lemburInput" value="250.000" />
+                    </span>
+                </div>
+
+                <!-- Potongan -->
+                <div class="row-item">
+                    <span class="label"><i class="fas fa-minus-circle"></i> Potongan</span>
+                    <span class="value">
+                        <span class="rp-symbol">Rp</span>
+                        <input type="text" class="editable" id="potonganInput" value="150.000" />
+                    </span>
+                </div>
+
+                <!-- Shodaqoh -->
+                <div class="row-item">
+                    <span class="label"><i class="fas fa-hand-holding-heart"></i> Shodaqoh</span>
+                    <span class="value">
+                        <span class="rp-symbol">Rp</span>
+                        <input type="text" class="editable" id="sodaqohInput" value="75.000" />
+                    </span>
+                </div>
+
+                <!-- Tunjangan Lainnya -->
+                <div class="row-item">
+                    <span class="label"><i class="fas fa-gift"></i> Tunjangan Lain</span>
+                    <span class="value">
+                        <select id="tunjanganSelect">
+                            <option value="Pulsa">Pulsa</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Makan">Makan</option>
+                            <option value="Bonus" selected>Bonus</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                        <span class="rp-symbol">Rp</span>
+                        <input type="text" class="editable" id="tunjanganInput" value="100.000" />
+                    </span>
+                </div>
+            </div>
+
+            <!-- Total -->
+            <div class="total-row">
+                <span class="label"><i class="fas fa-calculator"></i> TOTAL</span>
+                <span class="value" id="totalDisplay">Rp 3.725.000</span>
+            </div>
+
+            <div class="note-area">
+                <i class="fas fa-praying-hands"></i> Shodaqoh nilainya tidak sama setiap bulannya.
+                <span style="display:block; margin-top:6px; font-style:normal;">
+                    <i class="fas fa-star" style="color:#b58b66;"></i>
+                    Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
+                </span>
+            </div>
+
+            <div class="footer-slip">
+                <i class="fas fa-mug-hot"></i> Pawon Mbah Gito Resto & Coffee <i class="fas fa-mug-hot"></i>
+                <small>🕌 berkah & ridho Illahi 🕌</small>
+            </div>
         </div>
 
-        <div class="bismillah">بِسْمِ اللَّهِ</div>
-
-        <div class="field-group">
-            <!-- Gaji Pokok -->
-            <div class="row-item">
-                <span class="label"><i class="fas fa-wallet"></i> Gaji Pokok</span>
-                <span class="value">
-                    <span class="rp-symbol">Rp</span>
-                    <input type="text" id="gajiPokokDisplay" value="3.500.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
-                    <input type="hidden" id="gajiPokok" value="3500000">
-                </span>
-            </div>
-            <!-- Lembur -->
-            <div class="row-item">
-                <span class="label"><i class="fas fa-clock"></i> Lembur</span>
-                <span class="value">
-                    <span class="rp-symbol">Rp</span>
-                    <input type="text" id="lemburDisplay" value="250.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
-                    <input type="hidden" id="lembur" value="250000">
-                </span>
-            </div>
-            <!-- Potongan -->
-            <div class="row-item">
-                <span class="label"><i class="fas fa-minus-circle"></i> Potongan</span>
-                <span class="value">
-                    <span class="rp-symbol">Rp</span>
-                    <input type="text" id="potonganDisplay" value="150.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
-                    <input type="hidden" id="potongan" value="150000">
-                </span>
-            </div>
-            <!-- Shodaqoh -->
-            <div class="row-item">
-                <span class="label"><i class="fas fa-hand-holding-heart"></i> Shodaqoh</span>
-                <span class="value">
-                    <span class="rp-symbol">Rp</span>
-                    <input type="text" id="sodaqohDisplay" value="75.000" readonly style="width:140px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
-                    <input type="hidden" id="sodaqoh" value="75000">
-                </span>
-            </div>
-            <!-- Tunjangan Lainnya -->
-            <div class="row-item">
-                <span class="label"><i class="fas fa-gift"></i> Tunjangan Lain</span>
-                <span class="value">
-                    <select id="tunjanganSelect">
-                        <option value="Pulsa">Pulsa</option>
-                        <option value="Transport">Transport</option>
-                        <option value="Makan">Makan</option>
-                        <option value="Bonus" selected>Bonus</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
-                    <span class="rp-symbol">Rp</span>
-                    <input type="text" id="tunjanganDisplay" value="100.000" readonly style="width:120px; background:transparent; font-weight:700; color:#2f1d10; cursor:default;">
-                    <input type="hidden" id="tunjanganNominal" value="100000">
-                </span>
-            </div>
+        <!-- ACTION -->
+        <div class="action-area">
+            <input type="text" class="wa-input" id="waNumber" placeholder="Nomor WA (contoh: 628123456789)" value="628123456789" />
+            <button class="btn btn-primary" id="generateBtn"><i class="fas fa-image"></i> Generate Gambar</button>
+            <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim ke WA</button>
         </div>
 
-        <!-- Total -->
-        <div class="total-row" id="totalRow">
-            <span class="label"><i class="fas fa-calculator"></i> TOTAL</span>
-            <span class="value" id="totalDisplay">Rp 3.725.000</span>
+        <div class="status-bar" id="statusBar">
+            <i class="fas fa-check-circle"></i>
+            <span id="statusMessage">Gambar berhasil digenerate!</span>
         </div>
 
-        <div class="note-area">
-            <i class="fas fa-praying-hands"></i> Shodaqoh nilainya tidak sama setiap bulannya. 
-            <span style="display:block; margin-top:6px; font-style:normal;">
-                <i class="fas fa-star" style="color:#b58b66;"></i> 
-                Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
-            </span>
-        </div>
-
-        <div class="footer-slip">
-            <i class="fas fa-mug-hot"></i> Pawon Mbah Gito Resto & Coffee <i class="fas fa-mug-hot"></i>
-            <small>🕌 berkah & ridho Illahi 🕌</small>
+        <div class="info-note">
+            <i class="fas fa-info-circle"></i> Klik "Generate Gambar" untuk membuat JPEG, lalu "Kirim ke WA" untuk otomatis mengirim ke nomor tujuan.
         </div>
     </div>
 
-    <div class="action-area">
-        <input type="text" class="wa-input" id="waNumber" placeholder="Nomor WA (contoh: 628123456789)" value="628123456789">
-        <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim WA (Gambar)</button>
-    </div>
-    <div class="info-note">
-        <i class="fas fa-info-circle"></i> Klik Kirim WA → gambar slip akan diunduh & WhatsApp terbuka otomatis.
-    </div>
-</div>
+    <script>
+        (function() {
+            // DOM Elements
+            const gajiInput = document.getElementById('gajiPokokInput');
+            const lemburInput = document.getElementById('lemburInput');
+            const potonganInput = document.getElementById('potonganInput');
+            const sodaqohInput = document.getElementById('sodaqohInput');
+            const tunjanganInput = document.getElementById('tunjanganInput');
+            const tunjanganSelect = document.getElementById('tunjanganSelect');
+            const totalDisplay = document.getElementById('totalDisplay');
+            const slipCard = document.getElementById('slipCard');
+            const waInput = document.getElementById('waNumber');
+            const generateBtn = document.getElementById('generateBtn');
+            const sendWaBtn = document.getElementById('sendWaBtn');
+            const statusBar = document.getElementById('statusBar');
+            const statusMessage = document.getElementById('statusMessage');
 
-<script>
-    (function() {
-        // Elemen display (readonly) dan hidden (nilai angka)
-        const gajiPokokDisplay = document.getElementById('gajiPokokDisplay');
-        const gajiPokokHidden = document.getElementById('gajiPokok');
-        const lemburDisplay = document.getElementById('lemburDisplay');
-        const lemburHidden = document.getElementById('lembur');
-        const potonganDisplay = document.getElementById('potonganDisplay');
-        const potonganHidden = document.getElementById('potongan');
-        const sodaqohDisplay = document.getElementById('sodaqohDisplay');
-        const sodaqohHidden = document.getElementById('sodaqoh');
-        const tunjanganDisplay = document.getElementById('tunjanganDisplay');
-        const tunjanganHidden = document.getElementById('tunjanganNominal');
-        const tunjanganSelect = document.getElementById('tunjanganSelect');
-        const totalDisplay = document.getElementById('totalDisplay');
-        const slipCard = document.getElementById('slipCard');
-        const waInput = document.getElementById('waNumber');
-        const sendWaBtn = document.getElementById('sendWaBtn');
+            // Helper: parse angka dari string dengan titik
+            function parseRupiah(str) {
+                if (!str) return 0;
+                const clean = str.replace(/\./g, '').replace(/,/g, '');
+                const num = parseInt(clean);
+                return isNaN(num) ? 0 : num;
+            }
 
-        // Format angka dengan titik ribuan
-        function formatRupiah(angka) {
-            return angka.toLocaleString('id-ID');
-        }
+            // Helper: format dengan titik
+            function formatRupiah(angka) {
+                return angka.toLocaleString('id-ID');
+            }
 
-        // Ambil nilai numerik dari hidden
-        function getNumeric(id) {
-            return parseInt(document.getElementById(id).value) || 0;
-        }
+            // Update total
+            function updateTotal() {
+                const pokok = parseRupiah(gajiInput.value);
+                const lembur = parseRupiah(lemburInput.value);
+                const potong = parseRupiah(potonganInput.value);
+                const soda = parseRupiah(sodaqohInput.value);
+                const tunj = parseRupiah(tunjanganInput.value);
 
-        // Update semua display & total
-        function updateAllDisplays() {
-            const pokok = getNumeric('gajiPokok');
-            const lembur = getNumeric('lembur');
-            const potong = getNumeric('potongan');
-            const soda = getNumeric('sodaqoh');
-            const tunjNom = getNumeric('tunjanganNominal');
+                const total = pokok + lembur + tunj - potong - soda;
+                totalDisplay.textContent = 'Rp ' + formatRupiah(total);
+                return total;
+            }
 
-            gajiPokokDisplay.value = formatRupiah(pokok);
-            lemburDisplay.value = formatRupiah(lembur);
-            potonganDisplay.value = formatRupiah(potong);
-            sodaqohDisplay.value = formatRupiah(soda);
-            tunjanganDisplay.value = formatRupiah(tunjNom);
+            // Event listener untuk update total saat input berubah
+            [gajiInput, lemburInput, potonganInput, sodaqohInput, tunjanganInput].forEach(el => {
+                el.addEventListener('input', function() {
+                    // Format ulang saat user mengetik (agar ada titik)
+                    // Biarkan user mengetik angka, kita format saat blur
+                });
 
-            const total = pokok + lembur + tunjNom - potong - soda;
-            totalDisplay.textContent = 'Rp ' + formatRupiah(total);
-        }
+                el.addEventListener('blur', function() {
+                    // Format dengan titik saat kehilangan fokus
+                    const val = parseRupiah(this.value);
+                    if (val >= 0) {
+                        this.value = formatRupiah(val);
+                    } else {
+                        this.value = '0';
+                    }
+                    updateTotal();
+                });
 
-        // Fungsi untuk mengubah nilai hidden + update display (dipanggil dari event)
-        function setValueAndUpdate(idHidden, idDisplay, newValue) {
-            const hidden = document.getElementById(idHidden);
-            const display = document.getElementById(idDisplay);
-            let num = parseInt(newValue) || 0;
-            if (num < 0) num = 0;
-            hidden.value = num;
-            display.value = formatRupiah(num);
-            updateAllDisplays();
-        }
+                el.addEventListener('keydown', function(e) {
+                    // Hanya izinkan angka, backspace, delete, panah
+                    const key = e.key;
+                    if (key === 'Enter') {
+                        this.blur();
+                        e.preventDefault();
+                    }
+                    if (!/^[0-9]$/.test(key) && key !== 'Backspace' && key !== 'Delete' &&
+                        key !== 'ArrowLeft' && key !== 'ArrowRight' && key !== 'Tab' &&
+                        key !== 'Home' && key !== 'End' && key !== 'Enter') {
+                        e.preventDefault();
+                    }
+                });
+            });
 
-        // Buat input tersembunyi untuk edit (sebenarnya kita pakai popup atau input langsung?)
-        // Karena diminta "terdapat titik koma" dan bisa diubah, kita buat double-click pada display untuk edit.
-        // Atau lebih praktis: tambahkan tombol kecil? Kita gunakan event click pada display untuk mengubah.
-        // Buat fungsi edit value dengan prompt sederhana.
-        function makeEditable(displayId, hiddenId, label) {
-            const display = document.getElementById(displayId);
-            const hidden = document.getElementById(hiddenId);
-            display.addEventListener('dblclick', function(e) {
-                e.stopPropagation();
-                const current = parseInt(hidden.value) || 0;
-                const input = prompt(`Masukkan nominal ${label} (tanpa titik):`, current);
-                if (input === null) return;
-                const num = parseInt(input.replace(/\./g, '')) || 0;
-                if (num < 0) {
-                    alert('Nominal tidak boleh negatif.');
+            // Tunjangan select tidak perlu update total, hanya label
+
+            // Inisialisasi total
+            updateTotal();
+
+            // Status bar helper
+            function showStatus(message, type = 'success') {
+                statusBar.className = 'status-bar show ' + type;
+                statusMessage.textContent = message;
+                setTimeout(() => {
+                    statusBar.className = 'status-bar';
+                }, 5000);
+            }
+
+            // Generate Gambar (JPEG)
+            function generateImage() {
+                // Update total dulu
+                updateTotal();
+
+                return html2canvas(slipCard, {
+                    scale: 2.0,
+                    backgroundColor: '#fcf6ed',
+                    allowTaint: false,
+                    useCORS: true,
+                    logging: false,
+                    width: slipCard.scrollWidth,
+                    height: slipCard.scrollHeight,
+                    windowWidth: slipCard.scrollWidth,
+                    windowHeight: slipCard.scrollHeight
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    return imgData;
+                }).catch(err => {
+                    console.error('Error generating image:', err);
+                    showStatus('Gagal generate gambar: ' + err.message, 'error');
+                    throw err;
+                });
+            }
+
+            // Generate dan download
+            generateBtn.addEventListener('click', function() {
+                generateImage().then(imgData => {
+                    const link = document.createElement('a');
+                    link.download = 'Slip_Gaji_PawonMbahGito.jpeg';
+                    link.href = imgData;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showStatus('✅ Gambar berhasil di-download!', 'success');
+                }).catch(() => {
+                    showStatus('❌ Gagal generate gambar', 'error');
+                });
+            });
+
+            // Kirim ke WA (Generate + Kirim)
+            sendWaBtn.addEventListener('click', function() {
+                const wa = waInput.value.trim();
+                if (!wa) {
+                    showStatus('❌ Masukkan nomor WhatsApp terlebih dahulu!', 'error');
                     return;
                 }
-                hidden.value = num;
-                display.value = formatRupiah(num);
-                updateAllDisplays();
+
+                let waClean = wa.replace(/\D/g, '');
+                if (waClean.length < 10) {
+                    showStatus('❌ Nomor WA tidak valid (minimal 10 digit)', 'error');
+                    return;
+                }
+                if (waClean.startsWith('0')) {
+                    waClean = '62' + waClean.substring(1);
+                } else if (!waClean.startsWith('62')) {
+                    waClean = '62' + waClean;
+                }
+
+                // Tampilkan status loading
+                showStatus('⏳ Generating gambar & mengirim ke WA...', 'success');
+
+                // Generate gambar
+                generateImage().then(imgData => {
+                    // Download gambar otomatis
+                    const link = document.createElement('a');
+                    link.download = 'Slip_Gaji_PawonMbahGito.jpeg';
+                    link.href = imgData;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+                    // Siapkan pesan WhatsApp dengan data lengkap
+                    const pokok = parseRupiah(gajiInput.value);
+                    const lembur = parseRupiah(lemburInput.value);
+                    const potong = parseRupiah(potonganInput.value);
+                    const soda = parseRupiah(sodaqohInput.value);
+                    const tunj = parseRupiah(tunjanganInput.value);
+                    const tunjLabel = tunjanganSelect.value;
+                    const total = pokok + lembur + tunj - potong - soda;
+
+                    const msg =
+                        `*Slip Gaji Pawon Mbah Gito*
+
+        Bismillah
+
+        Gaji Pokok : Rp ${formatRupiah(pokok)}
+        Lembur     : Rp ${formatRupiah(lembur)}
+        Potongan   : Rp ${formatRupiah(potong)}
+        Shodaqoh   : Rp ${formatRupiah(soda)}
+        Tunjangan Lain (${tunjLabel}) : Rp ${formatRupiah(tunj)}
+
+        Total Gaji : Rp ${formatRupiah(total)}
+
+        Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
+
+        ~ Pawon Mbah Gito Resto & Coffee ~`;
+
+                    const encoded = encodeURIComponent(msg);
+                    const waUrl = `https://wa.me/${waClean}?text=${encoded}`;
+
+                    // Buka WhatsApp
+                    window.open(waUrl, '_blank');
+
+                    showStatus('✅ Gambar terdownload & WhatsApp terbuka! Silakan lampirkan gambar.', 'success');
+                }).catch(() => {
+                    showStatus('❌ Gagal mengirim. Coba lagi.', 'error');
+                });
             });
-            display.style.cursor = 'pointer';
-            display.title = 'Double-klik untuk mengubah';
-        }
 
-        // Aktifkan edit untuk Gaji Pokok, Lembur, Potongan, Shodaqoh, Tunjangan
-        makeEditable('gajiPokokDisplay', 'gajiPokok', 'Gaji Pokok');
-        makeEditable('lemburDisplay', 'lembur', 'Lembur');
-        makeEditable('potonganDisplay', 'potongan', 'Potongan');
-        makeEditable('sodaqohDisplay', 'sodaqoh', 'Shodaqoh');
-        makeEditable('tunjanganDisplay', 'tunjanganNominal', 'Tunjangan');
-
-        // Tunjangan Select: hanya untuk label, tidak mempengaruhi nominal
-        // tapi kita tambahkan event untuk update total (tidak mengubah nominal)
-        tunjanganSelect.addEventListener('change', function() {
-            // tidak mengubah nominal, hanya label
-        });
-
-        // Inisialisasi
-        updateAllDisplays();
-
-        // Fungsi kirim WA (gambar + data lengkap)
-        function sendWaWithImage() {
-            let wa = waInput.value.trim();
-            if (!wa) {
-                alert('Masukkan nomor WhatsApp terlebih dahulu.');
-                return;
-            }
-            wa = wa.replace(/\D/g, '');
-            if (wa.length < 10) {
-                alert('Nomor WhatsApp tidak valid (minimal 10 digit).');
-                return;
-            }
-            if (wa.startsWith('0')) {
-                wa = '62' + wa.substring(1);
-            } else if (!wa.startsWith('62')) {
-                wa = '62' + wa;
-            }
-
-            // Ambil data terkini dari hidden
-            const pokok = getNumeric('gajiPokok');
-            const lembur = getNumeric('lembur');
-            const potong = getNumeric('potongan');
-            const soda = getNumeric('sodaqoh');
-            const tunjNom = getNumeric('tunjanganNominal');
-            const tunjLabel = tunjanganSelect.value;
-            const total = pokok + lembur + tunjNom - potong - soda;
-
-            // Capture slipCard
-            html2canvas(slipCard, {
-                scale: 1.8,
-                backgroundColor: '#fcf6ed',
-                allowTaint: false,
-                useCORS: true,
-                logging: false,
-            }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 0.92);
-
-                // Download gambar
-                const link = document.createElement('a');
-                link.download = `Slip_Gaji_PawonMbahGito.jpeg`;
-                link.href = imgData;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                // Pesan WA dengan data lengkap
-                const msg = 
-`*Slip Gaji Pawon Mbah Gito*
-
-Bismillah
-
-Gaji Pokok : Rp ${formatRupiah(pokok)}
-Lembur     : Rp ${formatRupiah(lembur)}
-Potongan   : Rp ${formatRupiah(potong)}
-Shodaqoh   : Rp ${formatRupiah(soda)}
-Tunjangan Lain (${tunjLabel}) : Rp ${formatRupiah(tunjNom)}
-
-Total Gaji : Rp ${formatRupiah(total)}
-
-Semoga Ridho dan Allah Berkahi rezekinya. Aamiin
-
-~ Pawon Mbah Gito Resto & Coffee ~`;
-
-                const encoded = encodeURIComponent(msg);
-                const waUrl = `https://wa.me/${wa}?text=${encoded}`;
-                window.open(waUrl, '_blank');
-
-                alert('✅ Gambar slip gaji sudah di-download (JPEG).\nWhatsApp terbuka dengan data lengkap.\nSilakan lampirkan gambar dari galeri ke chat.');
-            }).catch(err => {
-                console.error(err);
-                alert('Gagal generate gambar. Coba lagi.');
+            // Enter pada input WA trigger kirim
+            waInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendWaBtn.click();
+                }
             });
-        }
 
-        sendWaBtn.addEventListener('click', sendWaWithImage);
-        waInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendWaWithImage();
-        });
+            // Validasi input agar tidak bisa input negatif
+            function sanitizeInput(el) {
+                el.addEventListener('input', function() {
+                    let val = this.value.replace(/\./g, '');
+                    if (val.startsWith('-')) {
+                        this.value = '0';
+                        updateTotal();
+                    }
+                });
+            }
+            [gajiInput, lemburInput, potonganInput, sodaqohInput, tunjanganInput].forEach(sanitizeInput);
 
-        // Agar total update jika ada perubahan dari hidden (via edit)
-        // sudah dihandle di makeEditable
-    })();
-</script>
+        })();
+    </script>
+
 </body>
 </html>
