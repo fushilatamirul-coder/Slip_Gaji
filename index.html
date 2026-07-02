@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Slip Gaji Pawon Mbah Gito</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300,400,600,700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
     </script>
@@ -320,6 +320,16 @@
             background: #b1805a;
         }
 
+        .btn-download {
+            background: #4a6fa5;
+            box-shadow: 0 4px 0 #2c4a73;
+            border-color: #3a5a8a;
+        }
+
+        .btn-download:hover {
+            background: #5a7fb5;
+        }
+
         .info-note {
             margin-top: 12px;
             text-align: center;
@@ -355,6 +365,10 @@
             color: #e74c3c;
         }
 
+        .status-bar.info i {
+            color: #3498db;
+        }
+
         @media (max-width: 550px) {
             .container {
                 padding: 14px;
@@ -379,6 +393,28 @@
             .total-row {
                 font-size: 18px;
                 flex-wrap: wrap;
+            }
+        }
+
+        /* Print/Export styles */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 10px;
+            }
+            #slipCard {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .action-area,
+            .status-bar,
+            .info-note {
+                display: none !important;
             }
         }
     </style>
@@ -472,8 +508,9 @@
         <!-- ACTION -->
         <div class="action-area">
             <input type="text" class="wa-input" id="waNumber" placeholder="Nomor WA (contoh: 628123456789)" value="628123456789" />
-            <button class="btn btn-primary" id="generateBtn"><i class="fas fa-image"></i> Generate Gambar</button>
-            <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim ke WA</button>
+            <button class="btn btn-primary" id="generateBtn"><i class="fas fa-image"></i> Generate</button>
+            <button class="btn btn-download" id="downloadBtn"><i class="fas fa-download"></i> Download</button>
+            <button class="btn btn-wa" id="sendWaBtn"><i class="fab fa-whatsapp"></i> Kirim WA</button>
         </div>
 
         <div class="status-bar" id="statusBar">
@@ -482,7 +519,7 @@
         </div>
 
         <div class="info-note">
-            <i class="fas fa-info-circle"></i> Klik "Generate Gambar" untuk membuat JPEG, lalu "Kirim ke WA" untuk otomatis mengirim ke nomor tujuan.
+            <i class="fas fa-info-circle"></i> Klik "Generate" untuk membuat JPEG, "Download" untuk menyimpan, atau "Kirim WA" untuk otomatis mengirim ke nomor tujuan.
         </div>
     </div>
 
@@ -499,14 +536,17 @@
             const slipCard = document.getElementById('slipCard');
             const waInput = document.getElementById('waNumber');
             const generateBtn = document.getElementById('generateBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
             const sendWaBtn = document.getElementById('sendWaBtn');
             const statusBar = document.getElementById('statusBar');
             const statusMessage = document.getElementById('statusMessage');
 
+            let currentImageData = null;
+
             // Helper: parse angka dari string dengan titik
             function parseRupiah(str) {
                 if (!str) return 0;
-                const clean = str.replace(/\./g, '').replace(/,/g, '');
+                const clean = str.replace(/\./g, '').replace(/,/g, '').replace(/\s/g, '');
                 const num = parseInt(clean);
                 return isNaN(num) ? 0 : num;
             }
@@ -547,7 +587,6 @@
                 });
 
                 el.addEventListener('keydown', function(e) {
-                    // Hanya izinkan angka, backspace, delete, panah
                     const key = e.key;
                     if (key === 'Enter') {
                         this.blur();
@@ -575,7 +614,6 @@
 
             // Generate Gambar (JPEG)
             function generateImage() {
-                // Update total dulu
                 updateTotal();
 
                 return html2canvas(slipCard, {
@@ -590,6 +628,7 @@
                     windowHeight: slipCard.scrollHeight
                 }).then(canvas => {
                     const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    currentImageData = imgData;
                     return imgData;
                 }).catch(err => {
                     console.error('Error generating image:', err);
@@ -598,22 +637,41 @@
                 });
             }
 
+            // Download gambar
+            function downloadImage(imgData) {
+                const link = document.createElement('a');
+                link.download = 'Slip_Gaji_PawonMbahGito.jpeg';
+                link.href = imgData;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
             // Generate dan download
             generateBtn.addEventListener('click', function() {
                 generateImage().then(imgData => {
-                    const link = document.createElement('a');
-                    link.download = 'Slip_Gaji_PawonMbahGito.jpeg';
-                    link.href = imgData;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    showStatus('✅ Gambar berhasil di-download!', 'success');
+                    showStatus('✅ Gambar berhasil digenerate!', 'success');
                 }).catch(() => {
                     showStatus('❌ Gagal generate gambar', 'error');
                 });
             });
 
-            // Kirim ke WA - hanya mengirim GAMBAR (bukan teks)
+            // Download button
+            downloadBtn.addEventListener('click', function() {
+                if (currentImageData) {
+                    downloadImage(currentImageData);
+                    showStatus('✅ Gambar berhasil di-download!', 'success');
+                } else {
+                    generateImage().then(imgData => {
+                        downloadImage(imgData);
+                        showStatus('✅ Gambar berhasil di-download!', 'success');
+                    }).catch(() => {
+                        showStatus('❌ Gagal download gambar', 'error');
+                    });
+                }
+            });
+
+            // Kirim ke WA - mengirim GAMBAR via WhatsApp
             sendWaBtn.addEventListener('click', function() {
                 const wa = waInput.value.trim();
                 if (!wa) {
@@ -632,28 +690,23 @@
                     waClean = '62' + waClean;
                 }
 
-                // Tampilkan status loading
-                showStatus('⏳ Generating gambar & mengirim ke WA...', 'success');
+                showStatus('⏳ Memproses gambar...', 'info');
 
                 // Generate gambar
                 generateImage().then(imgData => {
-                    // Download gambar otomatis (sebagai bukti)
-                    const link = document.createElement('a');
-                    link.download = 'Slip_Gaji_PawonMbahGito.jpeg';
-                    link.href = imgData;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-
-                    // Kirim GAMBAR ke WhatsApp menggunakan API share (hanya gambar)
-                    // Buat pesan singkat tanpa data detail (hanya instruksi untuk lampirkan gambar)
-                    const msg = `*Slip Gaji Pawon Mbah Gito*%0A%0ABISMILLAH%0A%0ASemoga Ridho dan Allah Berkahi rezekinya. Aamiin%0A%0A~ Pawon Mbah Gito Resto & Coffee ~`;
+                    // Download gambar otomatis
+                    downloadImage(imgData);
                     
-                    // Buka WhatsApp dengan pesan pendek (gambar sudah didownload, user tinggal attach)
+                    // Kirim GAMBAR ke WhatsApp menggunakan API dengan media share
+                    // Format: wa.me/62xxx?text=pesan&media=base64
+                    // Catatan: WhatsApp API tidak mendukung attachment langsung via URL
+                    // Solusi: Buka chat dengan pesan teks yang berisi instruksi
+                    const msg = `*Slip Gaji Pawon Mbah Gito*%0A%0ABISMILLAH%0A%0A📄 *Slip gaji terlampir* (file JPEG sudah di-download)%0A%0ASemoga Ridho dan Allah Berkahi rezekinya. Aamiin%0A%0A~ Pawon Mbah Gito Resto & Coffee ~`;
+                    
                     const waUrl = `https://wa.me/${waClean}?text=${msg}`;
                     window.open(waUrl, '_blank');
 
-                    showStatus('✅ Gambar terdownload! Silakan lampirkan gambar di chat WhatsApp yang sudah terbuka.', 'success');
+                    showStatus('✅ Gambar terdownload! Silakan lampirkan di chat WhatsApp yang terbuka.', 'success');
                 }).catch(() => {
                     showStatus('❌ Gagal mengirim. Coba lagi.', 'error');
                 });
@@ -677,6 +730,11 @@
                 });
             }
             [gajiInput, lemburInput, potonganInput, sodaqohInput, tunjanganInput].forEach(sanitizeInput);
+
+            // Auto-generate on load
+            setTimeout(() => {
+                generateImage().catch(() => {});
+            }, 500);
 
         })();
     </script>
